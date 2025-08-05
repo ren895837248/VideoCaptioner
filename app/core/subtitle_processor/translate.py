@@ -18,6 +18,7 @@ import re
 import html
 from urllib.parse import quote
 
+from app import cons
 from app.core.bk_asr.asr_data import ASRData, ASRDataSeg
 from app.core.utils import json_repair
 from app.core.subtitle_processor.prompt import (
@@ -215,6 +216,10 @@ class OpenAITranslator(BaseTranslator):
         """初始化OpenAI客户端"""
         base_url = os.getenv("OPENAI_BASE_URL")
         api_key = os.getenv("OPENAI_API_KEY")
+        base_url = "https://api.videocaptioner.cn/v1"
+        api_key = "sk-MinI5WMRq3eL7Ew4vsvgYIowdXFpc4vbX0vFfHgjGCp8uMtN"
+        base_url = cons.base_url
+        api_key = cons.api_key
         if not (base_url and api_key):
             raise ValueError("环境变量 OPENAI_BASE_URL 和 OPENAI_API_KEY 必须设置")
 

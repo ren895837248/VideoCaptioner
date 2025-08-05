@@ -527,15 +527,28 @@ class ASRData:
     def from_json(json_data: dict) -> "ASRData":
         """从JSON数据创建ASRData实例"""
         segments = []
-        for i in sorted(json_data.keys(), key=int):
-            segment_data = json_data[i]
-            segment = ASRDataSeg(
-                text=segment_data["original_subtitle"],
-                translated_text=segment_data["translated_subtitle"],
-                start_time=segment_data["start_time"],
-                end_time=segment_data["end_time"],
-            )
-            segments.append(segment)
+        segment_data = json_data['segments']
+        for raw_segment in segment_data:
+            words = raw_segment['words']
+            if words is not None and len(words) > 0:
+                for word in words:
+                    segment = ASRDataSeg(
+                        text=word["word"],
+                        translated_text="",
+                        start_time=word["start"],
+                        end_time=word["end"],
+                    )
+                    segments.append(segment)
+            else:
+                segment = ASRDataSeg(
+                    text=raw_segment["text"],
+                    translated_text="",
+                    start_time=raw_segment["start"],
+                    end_time=raw_segment["end"],
+                )
+                segments.append(segment)
+        #for i in sorted(json_data.keys(), key=int):
+
         return ASRData(segments)
 
     @staticmethod

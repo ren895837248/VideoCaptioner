@@ -39,7 +39,7 @@ class TaskFactory:
 
     @staticmethod
     def create_transcribe_task(
-        file_path: str, need_next_task: bool = False
+            file_path: str, need_next_task: bool = False
     ) -> TranscribeTask:
         """创建转录任务"""
 
@@ -96,7 +96,7 @@ class TaskFactory:
 
     @staticmethod
     def create_subtitle_task(
-        file_path: str, video_path: Optional[str] = None, need_next_task: bool = False
+            file_path: str, video_path: Optional[str] = None, need_next_task: bool = False
     ) -> SubtitleTask:
         """创建字幕任务"""
         output_name = (
@@ -109,14 +109,10 @@ class TaskFactory:
             f"-{cfg.translator_service.value.value}" if cfg.need_translate.value else ""
         )
 
-        if need_next_task:
-            output_path = str(
-                Path(file_path).parent / f"【样式字幕】{output_name}{suffix}.ass"
-            )
-        else:
-            output_path = str(
-                Path(file_path).parent / f"【字幕】{output_name}{suffix}.srt"
-            )
+        output_path = str(
+            # Path(file_path).parent / f"{output_name}{suffix}.srt"
+            Path(file_path).parent / f"{output_name}.srt"
+        )
 
         if cfg.split_type.value == SplitTypeEnum.SENTENCE.value:
             split_type = "sentence"
@@ -205,7 +201,7 @@ class TaskFactory:
 
     @staticmethod
     def create_synthesis_task(
-        video_path: str, subtitle_path: str, need_next_task: bool = False
+            video_path: str, subtitle_path: str, need_next_task: bool = False
     ) -> SynthesisTask:
         """创建视频合成任务"""
         if need_next_task:
@@ -233,10 +229,10 @@ class TaskFactory:
 
     @staticmethod
     def create_transcript_and_subtitle_task(
-        file_path: str,
-        output_path: Optional[str] = None,
-        transcribe_config: Optional[TranscribeConfig] = None,
-        subtitle_config: Optional[SubtitleConfig] = None,
+            file_path: str,
+            output_path: Optional[str] = None,
+            transcribe_config: Optional[TranscribeConfig] = None,
+            subtitle_config: Optional[SubtitleConfig] = None,
     ) -> TranscriptAndSubtitleTask:
         """创建转录和字幕任务"""
         if output_path is None:
@@ -252,11 +248,11 @@ class TaskFactory:
 
     @staticmethod
     def create_full_process_task(
-        file_path: str,
-        output_path: Optional[str] = None,
-        transcribe_config: Optional[TranscribeConfig] = None,
-        subtitle_config: Optional[SubtitleConfig] = None,
-        synthesis_config: Optional[SynthesisConfig] = None,
+            file_path: str,
+            output_path: Optional[str] = None,
+            transcribe_config: Optional[TranscribeConfig] = None,
+            subtitle_config: Optional[SubtitleConfig] = None,
+            synthesis_config: Optional[SynthesisConfig] = None,
     ) -> FullProcessTask:
         """创建完整处理任务（转录+字幕+合成）"""
         if output_path is None:
