@@ -1,7 +1,7 @@
 # win 二进制文件资源目录
 /resource/bin/
 !/resource/bin/bin_environment.txt
-
+/venv
 # 开发环境
 .idea/
 *.pyc
